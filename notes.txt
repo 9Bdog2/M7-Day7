@@ -90,7 +90,8 @@ let mixAddition2 = (arg1: number, arg2: string | string) => {// can be a number 
 //number & string it's an INTERSECTION type 
 //4.5 release of Typesrcipt
 
-//customType
+type CustomType = string | number
+//CustomType , start with capital letter
 
 let multiplyBy = (numberToMultiply : number, byWhat?: number) => {//by adding ? if it is there
 	//return numberToMultiply * byWhat
@@ -106,7 +107,131 @@ console.log(multiplyBy(30))// calling the second argument as undefind
 //ARRAYS
 //How to declare
 
-let myArray = []
+//let myArray = []
 
+let myArray : string[]
+myArray = []
+myArray.push("Stefano")
+//myArray.push(20) --> cannot add because of declaration
+
+let myArray : Array<string> --> <> stand for TYPE ARGUMENT
+
+let mixedArray: CustomType[] = []
+mixedArray.push("Stefano")
+mixedArray.push(20)
+//you can push both 
+
+myArray.forEach(element => console.log(element.slice(0,1).toLowerCase()))
+
+//maybe you want an array with fixed types in specific positions
+//[string, string, string,...]
+//[string | number, string | number, ..]
+//[string, numberm string] -->fixed types for fixed possitions
+//write a TUPLE --> sets types in a specific position in an array or sets the length
+let specificPositions: [string, number, string] = ["stefano", 50, "marti"]
+
+//Objects
+let obj = {} --> obj is of type empty object
+
+//obj.name = "Stefano" --> cannot append things over time 
+
+let obj = {
+	name : "",
+	age: 90
+}
+
+obj.name = "Stefano" --> now you can append 
+obj.age = 91
+
+//obj.age = "25" --> this is not allowed, how can we define the shape of an object in advance ?
+//interface
+
+interface StriveStudent {
+	name: string
+	age: string | number
+	//age : CustomType
+	zipCode : number
+	skills : string[]
+}
+
+let fs_sep21Student: StriveStudent = {
+	name : "Marti",
+	age : "N/A",
+	zipCode : 12345
+	skills: ["react", "redux"]
+}
+
+//interface defining the shape of the object
+
+type StriveStudent = Student & StriveProperties
+//& is called a TYPE INTERSECTION
+
+interface StriveWebStudent extends Student {
+	skills: string[]
+	batch: string
+	track: "FS" | "FE"
+}
+
+let roberta: StriveWebStudent
+
+//if you want to start from previous type /interface and add properties
+//types can be intesected, while interfaces must be extended
+
+let roberta: StriveWebStudent = {
+	firstName: "Roberta",
+	lastName: "Matera",
+	email: "roberta.matera@gmail.com",
+	skills: ["react","redux"],
+	batch: "FE-Sept21",
+	track: "FE",
+}
+
+// A type could be unified 
+
+interface Area {
+	city: string
+	country: string
+	zipCode?: number 
+}
+
+interface StriveTeacher extends Student {
+	//firstName, lastName and email are now inherited
+	role: string
+	skills: Array<string> // different way of initializing an array 
+	area?: Area
+}
+
+let arrayOfTheachers; StriveTeacher[] = []
+
+arrayOfTeachers.push({
+	firstName: "Stefano",
+	lastName: "Casasola",
+	email: "stefano.casasola@gmail.com",
+	role: "Teacher",
+	skills: ["frontend"],
+	area:{
+		city: "Gorizia",
+		country: "Italy",
+		zipcode: 12345,
+	},
+})
+
+arrayOfTeachers.push({
+	firstName: "Diego",
+	lastName: "Banovaz",
+	email: "diego.banovaz@gmail.com",
+	role: "MegaAdmin",
+	skills: ["Everything"],
+	
+})
+
+let justSomeProperties = arrayOfTeachers.filter(teacher => teacher.area).map(teacher => ({name:teacher.firstName}))
+
+let filteredStefano = arrayOfTeachers.find(teacher => teacher.firstName === "Stefano")
+
+console.log(filteredStefano.area!.zipCode!.toString()) // real world scenario , area is not mandatory ..area! - will not break the code 
+
+//the exclamation mark is marking a possible undefined property as present
+//you are telling TS : "I know what i am doing"
 
 
